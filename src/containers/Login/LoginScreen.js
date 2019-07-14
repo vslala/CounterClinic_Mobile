@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { View, Text, Button } from 'react-native';
 import Toast from '../../components/ToastAndroid/Toast';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -9,6 +9,19 @@ import { style } from "../../styles/Stylesheet";
 function LoginScreen(props) {
 
     const  { navigate } = props.navigation;
+
+    const checkLoginState = async () => {
+        let accessToken = await AsyncStorage.getItem('accessToken');
+        let loggedInUser = JSON.parse(await AsyncStorage.getItem('loggedInUser'));
+        if (accessToken) {
+            navigate('Dashboard', {loggedInUser: loggedInUser});
+            return;
+        }
+        return;
+    }
+    useEffect(() => {
+        checkLoginState();
+    }, []);
 
     const ref = useRef({
         navigationOptions: {

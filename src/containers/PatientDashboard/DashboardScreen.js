@@ -3,6 +3,7 @@ import { Text, Button, View, ScrollView, ProgressBarAndroid, TouchableOpacity } 
 import PropTypes from 'prop-types';
 import { style } from '../../styles/Stylesheet';
 import ClickBox from '../../components/Box/ClickBox';
+import { NavigationActions } from 'react-navigation';
 
 function DashboardScreen(props) {
 

@@ -182,7 +182,7 @@ function BookAppointment(props) {
                     <Picker.Item label="None" value="" />
                     {
                         doctors.map( (doctor, index) => (
-                            <Picker.Item key={index} label={doctor.firstName} value={doctor} />
+                            <Picker.Item key={index} label={doctor.fullName} value={doctor} />
                         ))
                     }
                 </Picker>
