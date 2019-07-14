@@ -12,8 +12,8 @@ function DashboardScreen(props) {
         <View style={style.container} >
 
             <View style={{flex: 1, flexDirection: "column", alignItems: "center", justifyContent: "space-evenly"}}>
-                <ClickBox accessible={true} accessibilityLabel="Book Appointment" boxText="Book Appointment" onClick={() => navigate('BookAppointment')} />
-                <ClickBox accessible={true} accessibilityLabel="View Appointments" boxText="View Appointments" onClick={() => navigate('ViewAppointments')} />
+                <ClickBox accessible={true} accessibilityLabel="Book Appointment" boxText={["Book Appointment"]} onClick={() => navigate('BookAppointment')} />
+                <ClickBox accessible={true} accessibilityLabel="View Appointments" boxText={["View Appointments"]} onClick={() => navigate('ViewAppointments')} />
             </View>
 
         </View>
