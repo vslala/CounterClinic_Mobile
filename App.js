@@ -4,6 +4,7 @@ import LoginScreen from './src/containers/Login/LoginScreen';
 import RegisterScreen from './src/containers/Register/RegisterScreen';
 import DashboardScreen from './src/containers/PatientDashboard/DashboardScreen';
 import BookAppointment from './src/containers/BookAppointment/BookAppointment';
+import AppointmentDetailScreen from './src/containers/AppointmentDetailScreen/AppointmentDetailScreen';
 
 const AuthNavigator = createStackNavigator({
   Login: { screen: LoginScreen },
@@ -12,7 +13,8 @@ const AuthNavigator = createStackNavigator({
 
 const MainNavigator = createStackNavigator({
   Dashboard: {screen: DashboardScreen },
-  BookAppointment: {screen: BookAppointment }
+  BookAppointment: {screen: BookAppointment },
+  AppointmentDetailScreen: {screen: AppointmentDetailScreen},
 });
 
 const App = createAppContainer(createSwitchNavigator({

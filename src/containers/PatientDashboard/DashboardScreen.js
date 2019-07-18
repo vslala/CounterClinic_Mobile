@@ -7,7 +7,7 @@ import { NavigationActions } from 'react-navigation';
 
 function DashboardScreen(props) {
 
-    const { navigate } = props.navigation;
+    const { navigate } = props.navigation;                 
 
     return (
         <View style={style.container} >

@@ -4,6 +4,7 @@ import Toast from '../../components/ToastAndroid/Toast';
 import AsyncStorage from '@react-native-community/async-storage';
 import { TextInput } from 'react-native-gesture-handler';
 import { style } from "../../styles/Stylesheet";
+import { Api } from '../../utils/ApiUtil';
 
 
 function LoginScreen(props) {
@@ -48,7 +49,7 @@ function LoginScreen(props) {
 
     const handleLogin = () => {
         console.log("Logging into the system");
-        fetch('http://206.189.30.73:8084/api/v1/user/login', {
+        fetch(Api.online.loginUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

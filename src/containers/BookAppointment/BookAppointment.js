@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, Button, Picker, PickerItem, DatePickerAndroid } from 'react-native';
+import { View, Text, Button, Picker, PickerItem, DatePickerAndroid, ProgressBarAndroid } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { style } from '../../styles/Stylesheet';
 import ClickBox from '../../components/Box/ClickBox';
@@ -7,6 +7,7 @@ import Toast from '../../components/ToastAndroid/Toast';
 import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import moment from 'moment';
 import * as DateUtil from '../../utils/DateUtil';
+import { Api, handleErrors } from '../../utils/ApiUtil';
 
 async function DatePicker(props) {
     try {
@@ -27,6 +28,10 @@ function BookAppointment(props) {
     const { navigate } = props.navigation;
 
     const [toastState, setToastState] = useState({visible: false, message: ''});
+    const [progressBarState, setProgressBarState] = useState({
+        animating: false,
+        indeterminate: true
+    });
 
     const [doctors, setDoctors] = useState([]);
 
@@ -40,13 +45,14 @@ function BookAppointment(props) {
     });
 
     const fetchDoctors = async () => {
-        
-        fetch('http://192.168.0.103:8080/user/all/DOCTOR', {
+        console.log("Fetching doctors from url: ", Api.walkin.getAllDoctors);
+        fetch(Api.walkin.getAllDoctors, {
             method: 'GET',
             headers: {
                 'Authorization': await AsyncStorage.getItem('accessToken')
             }
         })
+        .then(handleErrors)
         .then(response => response.json())
         .then(doctorList => {
             console.log("List of doctors:", doctorList);
@@ -75,19 +81,19 @@ function BookAppointment(props) {
         });
     }
 
-    const handleError = function(response) {                     
-        if(! response.ok)
-        {
-          return new Error(response.statusText);         
-        }
-        
-        return response;
+    const showLoader = () => {
+        setProgressBarState({...progressBarState, animating: true});
+    }
+
+    const hideLoader = () => {
+        setProgressBarState({...progressBarState, animating: false});
     }
 
     const fetchAvailableSlots = async (doctorId, selectedDate) => {
+        showLoader();
         console.log("Fetching available slots for the selected doctor");
         let formattedDate = moment(selectedDate).format(DateUtil.LOCAL_DATE_FORMAT);
-        let url = `http://206.189.30.73:8084/api/v1/appointment/doctor/availableSlots?doctorId=${encodeURIComponent(doctorId)}&appointmentDate=${encodeURIComponent(formattedDate)}`;
+        let url = `${Api.online.availableDoctorSlots}?doctorId=${encodeURIComponent(doctorId)}&appointmentDate=${encodeURIComponent(formattedDate)}`;
         let accessToken = await AsyncStorage.getItem('accessToken');
         console.log("Calling url: " + url + ", Access Token: " + accessToken);
         fetch(url, {
@@ -95,16 +101,19 @@ function BookAppointment(props) {
                 'Authorization': accessToken
             }
         })
+        .then(handleErrors)
         .then(response => response.json())
         .then(slots => {
+            hideLoader();
             console.log("Available Slots:", slots);
             setAvailableSlots(slots);
         })
         .catch(error => {
+            hideLoader();
             console.log(error);
-            console.log(error.text);
+            console.log(error.message);
             // show error snackbar here
-
+            setToastState({...toastState, visible: true, message: error.message});
         })
     }
 
@@ -136,7 +145,10 @@ function BookAppointment(props) {
     }
 
     const handleBookAppointment = async () => {
+        showLoader();
         console.log("Booking appointment for:", formData);
+        // navigate('AppointmentDetailScreen', {bookedAppointmentDetail: formData});
+        // return;
         let data = {
             additionalComments: formData.additionalComments,
             appointmentDate: moment(formData.selectedDate).format(DateUtil.LOCAL_DATE_FORMAT),
@@ -146,7 +158,7 @@ function BookAppointment(props) {
 
         let accessToken = await AsyncStorage.getItem('accessToken');
         console.log('Access Token: ', accessToken);
-        fetch('http://206.189.30.73:8084/api/v1/appointment/book', {
+        fetch(Api.online.bookAppointment, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',
@@ -154,13 +166,20 @@ function BookAppointment(props) {
             },
             body: JSON.stringify(data)
         })
-        .then(handleError)
+        .then(handleErrors)
         .then(response => console.log("Response: ", response))
         .then(data => {
+            hideLoader();
             console.log("Appointment booked successfully!", data);
+            setToastState({...toastState, visible: true, message: "The appointment has been booked successfully!"});
+            navigate('AppointmentDetailScreen', {bookedAppointmentDetail: formData});
         })
         .catch(error => {
+            hideLoader();
             console.log(error);
+            // TODO: Uncomment below line of code
+            setToastState({...toastState, visible: true, message: "There was some error trying to book the appointment."});
+            // navigate('AppointmentDetailScreen', {bookedAppointmentDetail: formData});
         })
     }
 
@@ -172,7 +191,8 @@ function BookAppointment(props) {
     return (
         <View style={ style.container }>
             <Toast visible={toastState.visible} message={toastState.message} />
-            
+            <ScrollView style={{alignSelf: "stretch"}}>
+
             <View style={ style.formControl }>
                 <Text style={style.formLabel}>Select Your Doctor</Text>
                 <Picker style={ style.formInput }
@@ -222,6 +242,10 @@ function BookAppointment(props) {
                     onPress={handleBookAppointment}
                 />
             </View>
+            <View style={style.formControl}>
+                <ProgressBarAndroid animating={progressBarState.animating} indeterminate={progressBarState.indeterminate} key="progressBar"  />
+            </View>
+            </ScrollView>
         </View>
     );
 }

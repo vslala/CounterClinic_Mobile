@@ -3,6 +3,7 @@ import { Text, Button, View, ScrollView, ProgressBarAndroid } from 'react-native
 import { style } from '../../styles/Stylesheet';
 import { TextInput } from 'react-native-gesture-handler';
 import Toast from '../../components/ToastAndroid/Toast';
+import { Api } from '../../utils/ApiUtil';
 
 function RegisterScreen(props) {
 
@@ -33,7 +34,7 @@ function RegisterScreen(props) {
     const handleRegistration = () => {
         console.log("Registering patient: ", formData);
         setProgressState({...progressState, animating: true});
-        fetch('http://206.189.30.73:8084/api/v1/user/register', {
+        fetch(Api.online.registrationUrl, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

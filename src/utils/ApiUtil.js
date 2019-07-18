@@ -1,9 +1,29 @@
-export const API_ONE_BASE_URL = 'http://206.189.30.73:8084/api/v1/appointment/book';
 
-export const LOGIN_URL = `${API_ONE_BASE_URL}/api/v1/user/login`;
-export const REGISTRATION_URL = `${API_ONE_BASE_URL}/api/v1/user/register`;
-export const AVAILAIBLE_DOCTOR_SLOTS_URL = `${API_ONE_BASE_URL}/api/v1/appointment/doctor/availableSlots`;
-export const BOOK_APPOINTMENT_URL = `${API_ONE_BASE_URL}/api/v1/appointment/book`;
 
-export const API_TWO_BASE_URL = 'http://192.168.0.103:8080';
-export const GET_USERS_BY_ROLE_URL = `${API_TWO_BASE_URL}/user/all`;
+COUNTER_CLINIC_ONLINE_URL = 'http://206.189.30.73:8084';
+COUNTER_CLINIC_WALKIN_URL = 'http://10.131.126.36:8080';
+
+export const Api = {
+    online: {
+        bookAppointment: COUNTER_CLINIC_ONLINE_URL + '/api/v1/appointment/book',
+        loginUrl: COUNTER_CLINIC_ONLINE_URL + '/api/v1/user/login',
+        registrationUrl: COUNTER_CLINIC_ONLINE_URL + '/api/v1/user/register',
+        availableDoctorSlots: COUNTER_CLINIC_ONLINE_URL + '/api/v1/appointment/doctor/availableSlots',
+    },
+    walkin: {
+        getAllDoctors: COUNTER_CLINIC_WALKIN_URL + '/user/all/doctor',
+        getAllPatients: COUNTER_CLINIC_WALKIN_URL + '/user/all/patient',
+        getAllReceptionists: COUNTER_CLINIC_WALKIN_URL + '/user/all/receptionist',
+        getAllAdmins: COUNTER_CLINIC_WALKIN_URL + '/user/all/admin',
+        getAllSuperAdmins: COUNTER_CLINIC_WALKIN_URL + '/user/all/super_admin',
+    }
+}
+
+export const handleErrors = (response) => {
+    if (! response.ok) {
+        throw new Error("Encountered Error: " + response.type + ", Status: " + response.status);
+    }
+    console.log(response);
+    return response;
+}
+
