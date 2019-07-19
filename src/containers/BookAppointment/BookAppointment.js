@@ -8,6 +8,7 @@ import { ScrollView, TextInput } from 'react-native-gesture-handler';
 import moment from 'moment';
 import * as DateUtil from '../../utils/DateUtil';
 import { Api, handleErrors } from '../../utils/ApiUtil';
+import CustomHeader from '../../components/CustomHeader/CustomHeader';
 
 async function DatePicker(props) {
     try {
@@ -251,7 +252,10 @@ function BookAppointment(props) {
 }
 
 BookAppointment.navigationOptions = ({navigation}) => ({
-    title: "Book Appointment"
+    title: "Book Appointment",
+    header: props => (
+        <CustomHeader title="Book Appointment" {...props} />
+    )
 });
 
 export default BookAppointment;

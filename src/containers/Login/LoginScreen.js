@@ -1,10 +1,11 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { View, Text, Button } from 'react-native';
+import { View } from 'react-native';
+import { Text, TextInput, Button } from 'react-native-paper';
 import Toast from '../../components/ToastAndroid/Toast';
 import AsyncStorage from '@react-native-community/async-storage';
-import { TextInput } from 'react-native-gesture-handler';
+// import { TextInput } from 'react-native-gesture-handler';
 import { style } from "../../styles/Stylesheet";
-import { Api } from '../../utils/ApiUtil';
+import { Api, handleErrors } from '../../utils/ApiUtil';
 
 
 function LoginScreen(props) {
@@ -57,6 +58,7 @@ function LoginScreen(props) {
             },
             body: JSON.stringify(formData)
         })
+        .then(handleErrors)
         .then(response => response.json())
         .then(data => {
             console.log("Login Successful! ", data);
@@ -75,6 +77,14 @@ function LoginScreen(props) {
             });
             
             navigate('Dashboard', { loggedInUser: data.user });
+        })
+        .catch(error => {
+            console.log("Error encountered while trying to login into the system. Error cause: ", error);
+            setToastState({
+                ...toastState,
+                message: "Error while trying to login.",
+                visible: true
+            })
         });
     }
 
@@ -86,10 +96,12 @@ function LoginScreen(props) {
                     Username
                 </Text> */}
                 <TextInput 
+                    label="Username"
                     editable={true}
-                    style={style.formInput}
+                    mode="outlined"
+                    // style={style.formInput}
                     value={formData.username} 
-                    placeholder="Username"
+                    // placeholder="Username"
                     onChangeText={handleChange('username')}
                 />
             </View>
@@ -101,7 +113,8 @@ function LoginScreen(props) {
                 <TextInput 
                     secureTextEntry={ true }
                     editable={ true }
-                    style={style.formInput}
+                    mode="outlined"
+                    // style={style.formInput}
                     value={ formData.password } 
                     placeholder="Password"
                     onChangeText={ handleChange('password') }
@@ -110,11 +123,14 @@ function LoginScreen(props) {
 
             <View style={style.formControl}>
                 <Button 
-                    title="Login"
+                    // title="Login"
                     onPress={handleLogin}
                     accessibilityLabel="Click here to Login"
-                    disabled={formData.username == '' || formData.password == ''}
-                />
+                    mode="contained"
+                    dark={true}
+                    disabled={formData.username == '' || formData.password == ''}>
+                        Login
+                </Button>
                 <Text style={style.link}
                     onPress={() => { console.log("Navigating to Register Screen!"); navigate('Register');} }
                 >
