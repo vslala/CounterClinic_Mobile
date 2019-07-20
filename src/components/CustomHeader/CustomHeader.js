@@ -5,13 +5,22 @@ import { handleLogout } from '../../utils/ApiUtil';
 
 function CustomHeader(props) {
 
-    const { goBack } = props.navigation;
-    const { navigate } = props.navigation;
+    const { state, navigate, goBack } = props.navigation;
 
     console.log("Navigation option: ", props.navigation);
 
+    const backButton = () => {
+        if (props.backButton) {
+            console.log("Back button should be present!");
+            return (
+                <Appbar.BackAction onPress={() => goBack(null)}></Appbar.BackAction>
+            );
+        }
+    }
+
     return (
         <Appbar dark={true}>
+            { backButton() }
         <Appbar.Content
             title={props.title}
         />
@@ -23,6 +32,7 @@ function CustomHeader(props) {
 
 CustomHeader.propTypes = {
     title: PropTypes.string.isRequired,
+    backButton: PropTypes.bool,
 }
 
 export default CustomHeader;

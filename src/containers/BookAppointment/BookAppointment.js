@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { View, Text, Button, Picker, PickerItem, DatePickerAndroid, ProgressBarAndroid } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { style } from '../../styles/Stylesheet';
@@ -9,6 +9,9 @@ import moment from 'moment';
 import * as DateUtil from '../../utils/DateUtil';
 import { Api, handleErrors } from '../../utils/ApiUtil';
 import CustomHeader from '../../components/CustomHeader/CustomHeader';
+import { Divider, TextInput as PaperTextInput } from 'react-native-paper';
+import { Colors, ProgressBar } from 'react-native-paper';
+import * as Progress from 'react-native-progress';
 
 async function DatePicker(props) {
     try {
@@ -31,7 +34,8 @@ function BookAppointment(props) {
     const [toastState, setToastState] = useState({visible: false, message: ''});
     const [progressBarState, setProgressBarState] = useState({
         animating: false,
-        indeterminate: true
+        indeterminate: true,
+        progress: 0
     });
 
     const [doctors, setDoctors] = useState([]);
@@ -82,16 +86,8 @@ function BookAppointment(props) {
         });
     }
 
-    const showLoader = () => {
-        setProgressBarState({...progressBarState, animating: true});
-    }
-
-    const hideLoader = () => {
-        setProgressBarState({...progressBarState, animating: false});
-    }
-
     const fetchAvailableSlots = async (doctorId, selectedDate) => {
-        showLoader();
+        setProgressBarState({...progressBarState, animating: true});
         console.log("Fetching available slots for the selected doctor");
         let formattedDate = moment(selectedDate).format(DateUtil.LOCAL_DATE_FORMAT);
         let url = `${Api.online.availableDoctorSlots}?doctorId=${encodeURIComponent(doctorId)}&appointmentDate=${encodeURIComponent(formattedDate)}`;
@@ -105,16 +101,19 @@ function BookAppointment(props) {
         .then(handleErrors)
         .then(response => response.json())
         .then(slots => {
-            hideLoader();
+            setProgressBarState({...progressBarState, animating: false});
             console.log("Available Slots:", slots);
             setAvailableSlots(slots);
         })
         .catch(error => {
-            hideLoader();
+            setProgressBarState({...progressBarState, animating: false});
             console.log(error);
             console.log(error.message);
             // show error snackbar here
             setToastState({...toastState, visible: true, message: error.message});
+        })
+        .then(() => {
+            setToastState({...toastState, visible: false});
         })
     }
 
@@ -146,10 +145,8 @@ function BookAppointment(props) {
     }
 
     const handleBookAppointment = async () => {
-        showLoader();
         console.log("Booking appointment for:", formData);
-        // navigate('AppointmentDetailScreen', {bookedAppointmentDetail: formData});
-        // return;
+        
         let data = {
             additionalComments: formData.additionalComments,
             appointmentDate: moment(formData.selectedDate).format(DateUtil.LOCAL_DATE_FORMAT),
@@ -170,30 +167,40 @@ function BookAppointment(props) {
         .then(handleErrors)
         .then(response => console.log("Response: ", response))
         .then(data => {
-            hideLoader();
+            setProgressBarState({...progressBarState, animating: false});
             console.log("Appointment booked successfully!", data);
             setToastState({...toastState, visible: true, message: "The appointment has been booked successfully!"});
             navigate('AppointmentDetailScreen', {bookedAppointmentDetail: formData});
         })
         .catch(error => {
-            hideLoader();
+            setProgressBarState({...progressBarState, animating: false});
             console.log(error);
             // TODO: Uncomment below line of code
             setToastState({...toastState, visible: true, message: "There was some error trying to book the appointment."});
             // navigate('AppointmentDetailScreen', {bookedAppointmentDetail: formData});
         })
+        .then(() => {
+            setToastState({...toastState, visible: false});
+        })
     }
 
     const chooseDateBox = [
         "Choose Appointment Date",
-        formData.selectedDate.toDateString()
+        <Divider style={{width: 150, height: 5}} />,
+        <Text style={{fontWeight: "bold", fontSize: 14}}>{formData.selectedDate.toDateString()}</Text>
     ];
     
     return (
         <View style={ style.container }>
             <Toast visible={toastState.visible} message={toastState.message} />
+            <View style={ style.formControl}>
+                <Text style={{...style.formLabel, fontSize: 16, margin: 5, color: "grey"}}>
+                    Please use below form to book an appointment. Make sure you fill the form in the right order (top-to-bottom) for best experience.
+                </Text>
+                <Divider />
+            </View>
             <ScrollView style={{alignSelf: "stretch"}}>
-
+            
             <View style={ style.formControl }>
                 <Text style={style.formLabel}>Select Your Doctor</Text>
                 <Picker style={ style.formInput }
@@ -207,9 +214,12 @@ function BookAppointment(props) {
                         ))
                     }
                 </Picker>
+                <Divider />
             </View>
+            
             <View style={style.formControl}>
-                <ClickBox boxText={chooseDateBox} boxHeight={50} accessible={formData.selectedDoctor != ''} accessibilityLabel="Choose Appointment Date" onClick={selectDate} />
+                <ClickBox boxText={chooseDateBox} boxHeight={30} accessible={formData.selectedDoctor != ''} accessibilityLabel="Choose Appointment Date" onClick={selectDate} />
+                <Divider />
             </View>
             <View style={style.formControl}>
                 <Text style={style.formLabel}>Select Appointment Slot</Text>
@@ -226,26 +236,37 @@ function BookAppointment(props) {
                         ))
                     }
                 </Picker>
+                <Divider />
             </View>
             <View style={style.formControl}>
-                <Text style={style.formLabel}>Any additional comments for the clinic</Text>
-                <TextInput 
+                {/* <Text style={style.formLabel}>Any additional comments for the clinic</Text> */}
+                <PaperTextInput 
                     multiline={true}
-                    style={{...style.formInput, height: 100}}
+                    label="Any additional comments for the clinic"
+                    mode="outlined"
+                    // style={{...style.formInput, height: 100}}
                     value={formData.additionalComments}
                     placeholder="Please tell us everything we should know..."
                     onChangeText={handleChange('additionalComments')}
                 />
+                <Divider />
             </View>
             <View style={style.formControl}>
                 <Button 
                     title="Book Appointment"
-                    onPress={handleBookAppointment}
+                    onPress={() => {
+                        setProgressBarState({...progressBarState, animating: true}); 
+                        handleBookAppointment();
+                    }}
                 />
             </View>
-            <View style={style.formControl}>
-                <ProgressBarAndroid animating={progressBarState.animating} indeterminate={progressBarState.indeterminate} key="progressBar"  />
-            </View>
+            {
+                progressBarState.animating ? (
+                    <View style={style.formControl}>
+                        <Progress.Bar indeterminate={true} width={300} />
+                    </View>
+                ) : false 
+            }
             </ScrollView>
         </View>
     );
@@ -254,7 +275,7 @@ function BookAppointment(props) {
 BookAppointment.navigationOptions = ({navigation}) => ({
     title: "Book Appointment",
     header: props => (
-        <CustomHeader title="Book Appointment" {...props} />
+        <CustomHeader backButton={true} title="Book Appointment" {...props} />
     )
 });
 

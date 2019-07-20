@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useRef } from 'react';
 import { Text, Button, View, ScrollView, ProgressBarAndroid, TouchableOpacity, ToolbarAndroid } from 'react-native';
 import PropTypes from 'prop-types';
 import { style } from '../../styles/Stylesheet';
@@ -17,6 +17,7 @@ function DashboardScreen(props) {
         AsyncStorage.removeItem(constants.accessToken);
         navigate('LoginScreen');
     }
+
 
     return (
         <View style={style.container} >
