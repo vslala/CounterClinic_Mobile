@@ -5,7 +5,7 @@ import Toast from '../../components/ToastAndroid/Toast';
 import AsyncStorage from '@react-native-community/async-storage';
 // import { TextInput } from 'react-native-gesture-handler';
 import { style } from "../../styles/Stylesheet";
-import { Api, handleErrors } from '../../utils/ApiUtil';
+import { Api, handleErrors, constants } from '../../utils/ApiUtil';
 
 
 function LoginScreen(props) {
@@ -15,8 +15,13 @@ function LoginScreen(props) {
     const checkLoginState = async () => {
         let accessToken = await AsyncStorage.getItem('accessToken');
         let loggedInUser = JSON.parse(await AsyncStorage.getItem('loggedInUser'));
-        if (accessToken) {
-            navigate('Dashboard', {loggedInUser: loggedInUser});
+        if (accessToken && loggedInUser) {
+            console.log("Logged In User:", loggedInUser);
+            if (loggedInUser.roles.includes(constants.userRole.doctor)) {
+                navigate('DoctorDashboard', {loggedInUser: loggedInUser});
+                return;
+            }
+            navigate('Dashboard', {loggedInUser: loggedInUser, accessToken: accessToken});
             return;
         }
         return;
@@ -76,6 +81,10 @@ function LoginScreen(props) {
                 visible: true
             });
             
+            if (data.user.roles.includes(constants.userRole.doctor)) {
+                navigate('DoctorDashboard', { loggedInUser: data.user });
+                return;
+            }
             navigate('Dashboard', { loggedInUser: data.user });
         })
         .catch(error => {
@@ -121,10 +130,10 @@ function LoginScreen(props) {
                 />
             </View>
 
-            <View style={style.formControl}>
+            <View style={style.formControl} onTouchEnd={handleLogin}>
                 <Button 
                     // title="Login"
-                    onPress={handleLogin}
+                    style={{alignSelf:"stretch"}}
                     accessibilityLabel="Click here to Login"
                     mode="contained"
                     dark={true}

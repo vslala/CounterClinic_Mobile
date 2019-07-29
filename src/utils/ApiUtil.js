@@ -2,7 +2,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 
 
 COUNTER_CLINIC_ONLINE_URL = 'http://206.189.30.73:8081';
-COUNTER_CLINIC_WALKIN_URL = 'http://192.168.0.102:8080';
+COUNTER_CLINIC_WALKIN_URL = 'http://206.189.30.73:9090';
 
 export const Api = {
     online: {
@@ -10,7 +10,7 @@ export const Api = {
         loginUrl: COUNTER_CLINIC_ONLINE_URL + '/api/v1/users/login',
         registrationUrl: COUNTER_CLINIC_ONLINE_URL + '/api/v1/users/register',
         availableDoctorSlots: COUNTER_CLINIC_ONLINE_URL + '/api/v1/appointments/doctors/availableSlots',
-        fetchBookedAppointmentsByPatientId: COUNTER_CLINIC_ONLINE_URL + '/api/v1/appointments',
+        fetchAppointments: COUNTER_CLINIC_ONLINE_URL + '/api/v1/appointments',
     },
     walkin: {
         getAllDoctors: COUNTER_CLINIC_WALKIN_URL + '/user/all/doctor',
@@ -23,7 +23,14 @@ export const Api = {
 
 export const constants = {
     accessToken: "accessToken",
-    loggedInUser: "loggedInUser"
+    loggedInUser: "loggedInUser",
+    userRole: {
+        doctor: "DOCTOR",
+        patient: "PATIENT",
+        receptionist: "RECEPTIONIST",
+        admin: "ADMIN",
+        superAdmin: "SUPER_ADMIN",
+    }
 }
 
 export const handleErrors = (response) => {

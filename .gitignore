@@ -2,6 +2,8 @@
 #
 .DS_Store
 
+my-upload-key.keystore
+
 # Xcode
 #
 build/

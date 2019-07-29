@@ -4,6 +4,7 @@ import android.app.Application;
 
 import com.facebook.react.PackageList;
 import com.facebook.react.ReactApplication;
+import io.invertase.firebase.RNFirebasePackage;
 import com.oblador.vectoricons.VectorIconsPackage;
 import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.reactnativecommunity.asyncstorage.AsyncStoragePackage;
@@ -11,6 +12,9 @@ import com.swmansion.gesturehandler.react.RNGestureHandlerPackage;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
 import com.facebook.soloader.SoLoader;
+import io.invertase.firebase.notifications.RNFirebaseNotificationsPackage;
+import io.invertase.firebase.auth.RNFirebaseAuthPackage;
+import io.invertase.firebase.messaging.RNFirebaseMessagingPackage;
 
 import java.util.List;
 
@@ -28,8 +32,11 @@ public class MainApplication extends Application implements ReactApplication {
       List<ReactPackage> packages = new PackageList(this).getPackages();
       // Packages that cannot be autolinked yet can be added manually here, for example:
       // packages.add(new MyReactNativePackage());
-      packages.add(new RNGestureHandlerPackage());
-      packages.add(new AsyncStoragePackage());
+      // packages.add(new RNGestureHandlerPackage());
+      // packages.add(new AsyncStoragePackage());
+      packages.add(new RNFirebaseNotificationsPackage());
+      packages.add(new RNFirebaseAuthPackage());
+      packages.add(new RNFirebaseMessagingPackage());
       return packages;
     }
 

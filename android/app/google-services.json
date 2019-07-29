@@ -1,0 +1,77 @@
+{
+  "project_info": {
+    "project_number": "460358320321",
+    "firebase_url": "https://clinic-counter-app.firebaseio.com",
+    "project_id": "clinic-counter-app",
+    "storage_bucket": "clinic-counter-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:460358320321:android:275f58cd540dedf1",
+        "android_client_info": {
+          "package_name": "com.bma.counter.clinic"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "460358320321-i4l9hln2fthrtkig91t2llola1gsel95.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.bma.counter.clinic",
+            "certificate_hash": "5d4cd89cbb513750e23b0649e0b9208869661728"
+          }
+        },
+        {
+          "client_id": "460358320321-nijeg3oqpu30fjb51d0tiu6m5juiuqs0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvtDt2DgrMYvaY7KnuQnRzR0m5ARiGMBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "460358320321-nijeg3oqpu30fjb51d0tiu6m5juiuqs0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:460358320321:android:132ce13eac6be17c",
+        "android_client_info": {
+          "package_name": "com.counterclinicmobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "460358320321-nijeg3oqpu30fjb51d0tiu6m5juiuqs0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAvtDt2DgrMYvaY7KnuQnRzR0m5ARiGMBw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "460358320321-nijeg3oqpu30fjb51d0tiu6m5juiuqs0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

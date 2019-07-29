@@ -24,5 +24,10 @@ export const style = StyleSheet.create({
     link: {
         margin: 5,
         color: '#2196f3',
+    },
+    modal: {
+        backgroundColor: 'white',
+        borderWidth: 2,
+        borderColor: 'lightgrey'
     }
 });

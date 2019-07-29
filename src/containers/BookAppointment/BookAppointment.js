@@ -109,8 +109,9 @@ function BookAppointment(props) {
             setProgressBarState({...progressBarState, animating: false});
             console.log(error);
             console.log(error.message);
+            setAvailableSlots([]); // empty slots
             // show error snackbar here
-            setToastState({...toastState, visible: true, message: error.message});
+            setToastState({...toastState, visible: true, message: "No slots available for the selected date."});
         })
         .then(() => {
             setToastState({...toastState, visible: false});
