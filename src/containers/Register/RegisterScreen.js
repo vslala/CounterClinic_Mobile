@@ -3,7 +3,7 @@ import { Text, Button, View, ScrollView, ProgressBarAndroid } from 'react-native
 import { style } from '../../styles/Stylesheet';
 import { TextInput } from 'react-native-gesture-handler';
 import Toast from '../../components/ToastAndroid/Toast';
-import { Api } from '../../utils/ApiUtil';
+import { Api, handleErrors } from '../../utils/ApiUtil';
 
 function RegisterScreen(props) {
 
@@ -41,6 +41,7 @@ function RegisterScreen(props) {
             },
             body: JSON.stringify(formData)
         })
+        .then(handleErrors)
         .then(response => response.json())
         .then(user => {
             console.log("Registration successful!", user);
@@ -53,6 +54,21 @@ function RegisterScreen(props) {
             
             // navigate to login
             navigate('Login', {registeredUser: user});
+        })
+        .catch((error) => {
+            console.log("Error encountered while trying to registering the user.", error);
+            setToastState({
+                ...toastState,
+                visible: true,
+                message: 'Error encountered! Error: ' + error
+            })
+
+        })
+        .then( () => {
+            setToastState({
+                ...toastState,
+                visible: false
+            })
         })
     }
 

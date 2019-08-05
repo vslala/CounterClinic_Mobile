@@ -2,7 +2,7 @@ import React, {useState, useEffect } from 'react';
 import { View } from 'react-native';
 import PropTypes from 'prop-types';
 import { ScrollView } from 'react-native-gesture-handler';
-import { List, Divider } from 'react-native-paper';
+import { List, Divider, withTheme } from 'react-native-paper';
 import { style } from '../../styles/Stylesheet';
 
 function ShowList(props) {
@@ -44,4 +44,4 @@ ShowList.propTypes = {
     scale: PropTypes.object,
 }
 
-export default ShowList
+export default withTheme(ShowList);

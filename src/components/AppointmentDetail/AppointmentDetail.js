@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { View, Text, Button } from 'react-native';
 import { style } from '../../styles/Stylesheet';
+import { withTheme } from 'react-native-paper';
 
 function AppointmentDetail(props) {
 
@@ -51,4 +52,4 @@ AppointmentDetail.propTypes = {
     onSuccess: PropTypes.func.isRequired,
 }
 
-export default AppointmentDetail;
+export default withTheme(AppointmentDetail);

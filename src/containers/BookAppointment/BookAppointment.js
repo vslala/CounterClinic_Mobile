@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { View, Text, Button, Picker, PickerItem, DatePickerAndroid, ProgressBarAndroid } from 'react-native';
+import { View, Text, Button, Picker, PickerItem, DatePickerAndroid, ProgressBarAndroid, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { style } from '../../styles/Stylesheet';
 import ClickBox from '../../components/Box/ClickBox';
@@ -9,7 +9,7 @@ import moment from 'moment';
 import * as DateUtil from '../../utils/DateUtil';
 import { Api, handleErrors } from '../../utils/ApiUtil';
 import CustomHeader from '../../components/CustomHeader/CustomHeader';
-import { Divider, TextInput as PaperTextInput } from 'react-native-paper';
+import { Divider, TextInput as PaperTextInput, withTheme } from 'react-native-paper';
 import { Colors, ProgressBar } from 'react-native-paper';
 import * as Progress from 'react-native-progress';
 
@@ -186,9 +186,9 @@ function BookAppointment(props) {
     }
 
     const chooseDateBox = [
-        "Choose Appointment Date",
+        <Text style={{fontSize: 12}}>Choose Appointment Date</Text>,
         <Divider style={{width: 150, height: 5}} />,
-        <Text style={{fontWeight: "bold", fontSize: 14}}>{formData.selectedDate.toDateString()}</Text>
+        <Text style={style.body2}>{formData.selectedDate.toDateString()}</Text>
     ];
     
     return (
@@ -218,8 +218,8 @@ function BookAppointment(props) {
                 <Divider />
             </View>
             
-            <View style={style.formControl}>
-                <ClickBox boxText={chooseDateBox} boxHeight={30} accessible={formData.selectedDoctor != ''} accessibilityLabel="Choose Appointment Date" onClick={selectDate} />
+            <View >
+                <ClickBox boxText={chooseDateBox} accessible={formData.selectedDoctor != ''} accessibilityLabel="Choose Appointment Date" onClick={selectDate} />
                 <Divider />
             </View>
             <View style={style.formControl}>
@@ -280,4 +280,4 @@ BookAppointment.navigationOptions = ({navigation}) => ({
     )
 });
 
-export default BookAppointment;
+export default withTheme(BookAppointment);

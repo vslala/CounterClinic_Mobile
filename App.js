@@ -9,6 +9,8 @@ import DoctorDashboard from './src/containers/DoctorDashboard/DoctorDashboard';
 import ViewAppointments from './src/containers/ViewAppointments/ViewAppointments';
 import { firebaseMessaging } from './src/services';
 import OnlineAppointments from './src/containers/OnlineAppointments/OnlineAppointments';
+import WalkInAppointmentInfoForm from './src/containers/WalkInAppointmentInfoForm/WalkInAppointmentInfoForm';
+import WalkInAppointmentStatus from './src/components/WalkInAppointmentStatus/WalkInAppointmentStatus';
 
 firebaseMessaging.registerToken();
 
@@ -23,7 +25,9 @@ const MainNavigator = createStackNavigator({
   AppointmentDetailScreen: {screen: AppointmentDetailScreen},
   ViewAppointments: {screen: ViewAppointments},
   DoctorDashboard: {screen: DoctorDashboard},
-  OnlineAppointments: {screen: OnlineAppointments}
+  OnlineAppointments: {screen: OnlineAppointments},
+  WalkInAppointmentInfoForm: {screen: WalkInAppointmentInfoForm},
+  WalkInAppointmentStatus: {screen: WalkInAppointmentStatus},
 });
 
 const App = createAppContainer(createSwitchNavigator({

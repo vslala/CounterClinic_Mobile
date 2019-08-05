@@ -7,7 +7,7 @@ import ShowList from '../../components/ShowList/ShowList';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import { LOCAL_DATE_TIME_FORMAT, LOCAL_12_HOUR_FORMAT, formatLocalTimeTo12HourFormat } from '../../utils/DateUtil';
 import CustomHeader from '../../components/CustomHeader/CustomHeader';
-import { List, DataTable, Button, Divider } from 'react-native-paper';
+import { List, DataTable, Button, Divider, withTheme } from 'react-native-paper';
 import SearchBar from '../../components/SearchBar/SearchBar';
 
 function OnlineAppointments(props) {
@@ -177,4 +177,4 @@ OnlineAppointments.navigationOptions = ({navigation}) => ({
     )
 });
 
-export default OnlineAppointments;
+export default withTheme(OnlineAppointments);

@@ -93,3 +93,9 @@ Update `package.json` file:
 That's it! Run npm install to get awesome.
 
 Note: If you run npm install on ci like jenkins, you may get error: postinstall: cannot run in wd %s %s (wd=%s) node => just use `npm install --unsafe-perm` instead
+
+
+### Old version of app being built
+
+Run following command before building the app for device:
+`react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res`

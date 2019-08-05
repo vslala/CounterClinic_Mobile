@@ -1,13 +1,11 @@
 import React, { useState, useRef } from 'react';
-import { Text, Button, View, ScrollView, ProgressBarAndroid, TouchableOpacity, ToolbarAndroid } from 'react-native';
-import PropTypes from 'prop-types';
+import { ScrollView, View } from 'react-native';
 import { style } from '../../styles/Stylesheet';
 import ClickBox from '../../components/Box/ClickBox';
-import { NavigationActions } from 'react-navigation';
-import FontAwesome, {Icons} from 'react-native-fontawesome';
 import AsyncStorage from '@react-native-community/async-storage';
 import { constants } from '../../utils/ApiUtil';
 import CustomHeader from '../../components/CustomHeader/CustomHeader';
+import { withTheme } from 'react-native-paper';
 
 function DashboardScreen(props) {
 
@@ -19,13 +17,21 @@ function DashboardScreen(props) {
         navigate('LoginScreen');
     }
 
+    const handleQRScan = () => {
+        console.log("Scanning QR Code...");
+    }
+
 
     return (
         <View style={style.container} >
-            <View style={{flex: 1, flexDirection: "column", alignItems: "center", justifyContent: "space-evenly"}}>
-                <ClickBox accessible={true} accessibilityLabel="Book Appointment" boxText={["Book Appointment"]} onClick={() => navigate('BookAppointment')} />
-                <ClickBox accessible={true} accessibilityLabel="View Appointments" boxText={["View Appointments"]} onClick={() => navigate('OnlineAppointments', {loggedInUser: params.loggedInUser, accessToken: params.accessToken})} />
-            </View>
+            <ScrollView style={{alignSelf: "stretch"}}>
+                <View style={{flex: 1, flexDirection: "column", alignItems: "center", justifyContent: "space-evenly"}}>
+                    <ClickBox boxWidth={250} accessible={true} accessibilityLabel="Book Appointment" boxText={["Book Appointment"]} onClick={() => navigate('BookAppointment')} />
+                    <ClickBox boxWidth={250} accessible={true} accessibilityLabel="View Appointments" boxText={["View Appointments"]} onClick={() => navigate('OnlineAppointments', {loggedInUser: params.loggedInUser, accessToken: params.accessToken})} />
+                    {/* <ClickBox boxWidth={250} accessible={true} accessibilityLabel="Scan QR Code" boxText={["Scan QR Code"]} onClick={handleQRScan} /> */}
+                    <ClickBox boxWidth={250} accessible={true} accessibilityLabel="Appointment Status" boxText={["Appointment Status"]} onClick={() => navigate('WalkInAppointmentInfoForm', {loggedInUser: params.loggedInUser, accessToken: params.accessToken})} />
+                </View>
+            </ScrollView>
 
         </View>
     );
@@ -38,4 +44,4 @@ DashboardScreen.navigationOptions = ({navigate}) => ({
     ),
 });
 
-export default DashboardScreen;
+export default withTheme(DashboardScreen);

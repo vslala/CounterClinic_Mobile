@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { Appbar } from 'react-native-paper';
+import { Appbar, withTheme } from 'react-native-paper';
 import PropTypes from 'prop-types';
 import { handleLogout } from '../../utils/ApiUtil';
 
@@ -35,4 +35,4 @@ CustomHeader.propTypes = {
     backButton: PropTypes.bool,
 }
 
-export default CustomHeader;
+export default withTheme(CustomHeader);

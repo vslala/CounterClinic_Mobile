@@ -1,6 +1,6 @@
 import React, { useRef, useState, useEffect } from 'react';
 import { View } from 'react-native';
-import { Text, TextInput, Button } from 'react-native-paper';
+import { Text, TextInput, Button, withTheme } from 'react-native-paper';
 import Toast from '../../components/ToastAndroid/Toast';
 import AsyncStorage from '@react-native-community/async-storage';
 // import { TextInput } from 'react-native-gesture-handler';
@@ -94,6 +94,12 @@ function LoginScreen(props) {
                 message: "Error while trying to login.",
                 visible: true
             })
+        })
+        .then( () => {
+            setToastState({
+                ...toastState,
+                visible: false
+            })
         });
     }
 
@@ -140,6 +146,8 @@ function LoginScreen(props) {
                     disabled={formData.username == '' || formData.password == ''}>
                         Login
                 </Button>
+            </View>
+            <View style={style.formControl}>
                 <Text style={style.link}
                     onPress={() => { console.log("Navigating to Register Screen!"); navigate('Register');} }
                 >
@@ -154,5 +162,5 @@ LoginScreen.navigationOptions = ({ navigation }) => ({
     title: "Login Here!"
 });
 
-export default LoginScreen;
+export default withTheme(LoginScreen);
 

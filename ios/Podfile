@@ -38,6 +38,8 @@ target 'CounterClinicMobile' do
 
   pod 'RNFirebase', :path => '../node_modules/react-native-firebase'
 
+  pod 'react-native-webview', :path => '../node_modules/react-native-webview'
+
   target 'CounterClinicMobileTests' do
     inherit! :search_paths
     # Pods for testing

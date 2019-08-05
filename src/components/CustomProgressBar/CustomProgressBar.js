@@ -1,6 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { View } from 'react-native';
-import { ProgressBar } from 'react-native-paper';
+import { ProgressBar, withTheme } from 'react-native-paper';
 import PropTypes from 'prop-types';
 
 function CustomProgressBar(props) {
@@ -35,4 +35,4 @@ CustomProgressBar.propTypes = {
     open: PropTypes.bool.isRequired,
 }
 
-export default CustomProgressBar;
+export default withTheme(CustomProgressBar);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import { View } from 'react-native';
-import { Button, TextInput, Searchbar } from 'react-native-paper';
+import { Button, TextInput, Searchbar, withTheme } from 'react-native-paper';
 import { style } from '../../styles/Stylesheet';
 
 function SearchBar(props) {
@@ -33,4 +33,4 @@ SearchBar.propTypes = {
 
 }
 
-export default SearchBar;
+export default withTheme(SearchBar);

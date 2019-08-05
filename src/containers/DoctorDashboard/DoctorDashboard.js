@@ -4,7 +4,7 @@ import { style } from '../../styles/Stylesheet';
 import { ScrollView } from 'react-native-gesture-handler';
 import ClickBox from '../../components/Box/ClickBox';
 import CustomHeader from '../../components/CustomHeader/CustomHeader';
-import { Divider } from 'react-native-paper';
+import { Divider, withTheme } from 'react-native-paper';
 
 function DoctorDashboard(props) {
 
@@ -41,4 +41,4 @@ DoctorDashboard.navigationOptions = ({navigate}) => ({
     ),
 });
 
-export default DoctorDashboard;
+export default withTheme(DoctorDashboard);

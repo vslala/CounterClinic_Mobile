@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { ToastAndroid } from 'react-native';
 
 function Toast(props) {
@@ -11,6 +12,11 @@ function Toast(props) {
         return null;
     }
     return null;
+}
+
+Toast.propTypes = {
+    visible: PropTypes.bool.isRequired,
+    message: PropTypes.string.isRequired
 }
 
 export default Toast;
