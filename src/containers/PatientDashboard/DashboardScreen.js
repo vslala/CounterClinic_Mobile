@@ -17,10 +17,6 @@ function DashboardScreen(props) {
         navigate('LoginScreen');
     }
 
-    const handleQRScan = () => {
-        console.log("Scanning QR Code...");
-    }
-
 
     return (
         <View style={style.container} >
@@ -28,8 +24,9 @@ function DashboardScreen(props) {
                 <View style={{flex: 1, flexDirection: "column", alignItems: "center", justifyContent: "space-evenly"}}>
                     <ClickBox boxWidth={250} accessible={true} accessibilityLabel="Book Appointment" boxText={["Book Appointment"]} onClick={() => navigate('BookAppointment')} />
                     <ClickBox boxWidth={250} accessible={true} accessibilityLabel="View Appointments" boxText={["View Appointments"]} onClick={() => navigate('OnlineAppointments', {loggedInUser: params.loggedInUser, accessToken: params.accessToken})} />
-                    {/* <ClickBox boxWidth={250} accessible={true} accessibilityLabel="Scan QR Code" boxText={["Scan QR Code"]} onClick={handleQRScan} /> */}
+                    <ClickBox boxWidth={250} accessible={true} accessibilityLabel="Scan QR Code" boxText={["Scan QR Code"]} onClick={() => navigate('QRCodeScanner', {loggedInUser: params.loggedInUser, accessToken: params.accessToken})} />
                     <ClickBox boxWidth={250} accessible={true} accessibilityLabel="Appointment Status" boxText={["Appointment Status"]} onClick={() => navigate('WalkInAppointmentInfoForm', {loggedInUser: params.loggedInUser, accessToken: params.accessToken})} />
+                    <ClickBox boxWidth={255} accessible={true} accessibilityLabel="Contact Clinic" boxText={["Contact Clinic"]} onClick={() => navigate('ContactClinic', {loggedInUser: params.loggedInUser, accessToken: params.accessToken})} />
                 </View>
             </ScrollView>
 

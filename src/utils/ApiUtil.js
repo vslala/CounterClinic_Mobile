@@ -3,7 +3,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 
 COUNTER_CLINIC_ONLINE_URL = 'http://206.189.30.73:8081';
 // COUNTER_CLINIC_WALKIN_URL = 'http://206.189.30.73:9090';
-COUNTER_CLINIC_WALKIN_URL = 'http://192.168.0.101:8080';
+COUNTER_CLINIC_WALKIN_URL = 'http://192.168.0.151:8080';
 
 export const Api = {
     online: {
@@ -14,12 +14,14 @@ export const Api = {
         fetchAppointments: COUNTER_CLINIC_ONLINE_URL + '/api/v1/appointments',
     },
     walkin: {
+        context: COUNTER_CLINIC_WALKIN_URL,
         getAllDoctors: COUNTER_CLINIC_WALKIN_URL + '/user/all/doctor',
         getAllPatients: COUNTER_CLINIC_WALKIN_URL + '/user/all/patient',
         getAllReceptionists: COUNTER_CLINIC_WALKIN_URL + '/user/all/receptionist',
         getAllAdmins: COUNTER_CLINIC_WALKIN_URL + '/user/all/admin',
         getAllSuperAdmins: COUNTER_CLINIC_WALKIN_URL + '/user/all/super_admin',
         fetchAppointmentById: COUNTER_CLINIC_WALKIN_URL + '/walk-in-appointment/wrapped/id',
+        getContact: COUNTER_CLINIC_WALKIN_URL + '/user/setting', // [{settingName}]
     }
 }
 
@@ -36,6 +38,7 @@ export const constants = {
 }
 
 export const fetcher = {
+
     allDoctors: new Promise( async (resolve, reject) => {
         fetch(Api.walkin.getAllDoctors, {
             method: 'GET',
@@ -65,6 +68,19 @@ export const fetcher = {
         .catch(error => {
             reject(error);
         });
+    }),
+
+    contactInfo: (contactType) => new Promise((resolve, reject) => {
+        fetch(`${Api.walkin.getContact}/${contactType}`)
+        .then(handleErrors)
+        .then(response => response.json())
+        .then(contactEmail => {
+            resolve(contactEmail);
+        })
+        .catch(error => {
+            console.log("Error encountered!", error);
+            reject(error);
+        })
     })
 }
 

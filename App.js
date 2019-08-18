@@ -11,6 +11,8 @@ import { firebaseMessaging } from './src/services';
 import OnlineAppointments from './src/containers/OnlineAppointments/OnlineAppointments';
 import WalkInAppointmentInfoForm from './src/containers/WalkInAppointmentInfoForm/WalkInAppointmentInfoForm';
 import WalkInAppointmentStatus from './src/components/WalkInAppointmentStatus/WalkInAppointmentStatus';
+import ContactClinicScreen from './src/containers/ContactClinicScreen/ContactClinicScreen';
+import QRCodeScanner from 'react-native-qrcode-scanner';
 
 firebaseMessaging.registerToken();
 
@@ -28,6 +30,8 @@ const MainNavigator = createStackNavigator({
   OnlineAppointments: {screen: OnlineAppointments},
   WalkInAppointmentInfoForm: {screen: WalkInAppointmentInfoForm},
   WalkInAppointmentStatus: {screen: WalkInAppointmentStatus},
+  ContactClinic: {screen: ContactClinicScreen},
+  QRCodeScanner: {screen: QRCodeScanner},
 });
 
 const App = createAppContainer(createSwitchNavigator({

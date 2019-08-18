@@ -99,3 +99,39 @@ Note: If you run npm install on ci like jenkins, you may get error: postinstall:
 
 Run following command before building the app for device:
 `react-native bundle --platform android --dev false --entry-file index.js --bundle-output android/app/src/main/assets/index.android.bundle --assets-dest android/app/src/main/res`
+
+
+
+
+### React native camera error
+Could not resolve project :react-native-camera.
+ Required by:
+     project :app
+  > Cannot choose between the following variants of project :react-native-camera:
+      - generalDebugRuntimeElements
+      - mlkitDebugRuntimeElements
+    All of them match the consumer attributes:
+      - Variant 'generalDebugRuntimeElements':
+          - Required com.android.build.api.attributes.BuildTypeAttr 'debug' and found compatible value 'debug'.
+          - Found com.android.build.api.attributes.VariantAttr 'generalDebug' but wasn't required.
+          - Required com.android.build.gradle.internal.dependency.AndroidTypeAttr 'Aar' and found compatible value 'Aar'.
+          - Required org.gradle.usage 'java-runtime' and found compatible value 'java-runtime'.
+          - Found react-native-camera 'general' but wasn't required.
+      - Variant 'mlkitDebugRuntimeElements':
+          - Required com.android.build.api.attributes.BuildTypeAttr 'debug' and found compatible value 'debug'.
+          - Found com.android.build.api.attributes.VariantAttr 'mlkitDebug' but wasn't required.
+          - Required com.android.build.gradle.internal.dependency.AndroidTypeAttr 'Aar' and found compatible value 'Aar'.
+          - Required org.gradle.usage 'java-runtime' and found compatible value 'java-runtime'.
+          - Found react-native-camera 'mlkit' but wasn't required.
+
+Solution - Add `missingDimensionStrategy 'react-native-camera', 'general'` inside `app/build.gradle` under `defaultConfig{}`
+
+
+### Issue with Dex Merge
+Execution failed for task ':app:transformDexArchiveWithExternalLibsDexMergerForDebug'.
+> com.android.builder.dexing.DexArchiveMergerException: Error while merging dex archives: 
+  The number of method references in a .dex file cannot exceed 64K.
+  Learn how to resolve this issue at https://developer.android.com/tools/building/multidex.html
+
+Solution - Add `multiDexEnabled true` inside `app/build.gradle` under `defaultConfig{}`
+- Add `implementation 'com.android.support:multidex:1.0.3'` inside `app/build.gradle` under `dependencies`
