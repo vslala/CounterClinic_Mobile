@@ -5,7 +5,7 @@ import ClickBox from '../../components/Box/ClickBox';
 import AsyncStorage from '@react-native-community/async-storage';
 import { constants } from '../../utils/ApiUtil';
 import CustomHeader from '../../components/CustomHeader/CustomHeader';
-import { withTheme } from 'react-native-paper';
+import {withTheme, List, Divider} from 'react-native-paper';
 
 function DashboardScreen(props) {
 
@@ -18,16 +18,35 @@ function DashboardScreen(props) {
     }
 
 
+    function navigateTo(screen) {
+        return () => navigate(screen, {
+            loggedInUser: params.loggedInUser,
+            accessToken: params.accessToken
+        });
+    }
+
     return (
         <View style={style.container} >
             <ScrollView style={{alignSelf: "stretch"}}>
-                <View style={{flex: 1, flexDirection: "column", alignItems: "center", justifyContent: "space-evenly"}}>
-                    <ClickBox boxWidth={250} accessible={true} accessibilityLabel="Book Appointment" boxText={["Book Appointment"]} onClick={() => navigate('BookAppointment')} />
-                    <ClickBox boxWidth={250} accessible={true} accessibilityLabel="View Appointments" boxText={["View Appointments"]} onClick={() => navigate('OnlineAppointments', {loggedInUser: params.loggedInUser, accessToken: params.accessToken})} />
-                    <ClickBox boxWidth={250} accessible={true} accessibilityLabel="Scan QR Code" boxText={["Scan QR Code"]} onClick={() => navigate('QRCodeScanner', {loggedInUser: params.loggedInUser, accessToken: params.accessToken})} />
-                    <ClickBox boxWidth={250} accessible={true} accessibilityLabel="Appointment Status" boxText={["Appointment Status"]} onClick={() => navigate('WalkInAppointmentInfoForm', {loggedInUser: params.loggedInUser, accessToken: params.accessToken})} />
-                    <ClickBox boxWidth={255} accessible={true} accessibilityLabel="Contact Clinic" boxText={["Contact Clinic"]} onClick={() => navigate('ContactClinic', {loggedInUser: params.loggedInUser, accessToken: params.accessToken})} />
-                </View>
+                {
+                    [
+                        {title: 'Book Appointment', description: '', onClick: () => navigate('BookAppointment'), icon: 'schedule'},
+                        {title: 'View Appointments', description: '', onClick: navigateTo('OnlineAppointments'), icon: 'list'},
+                        {title: 'Scan QR Code', description: '', onClick: navigateTo('QRCodeScanner'), icon: 'scanner'},
+                        {title: 'Appointment Status', description: '', onClick: navigateTo('WalkInAppointmentInfoForm'), icon: 'notifications'  },
+                        {title: 'Contact Clinic', description: '', onClick: navigateTo('ContactClinic'), icon: 'contacts'},
+                    ].map((listItem, index) => (
+                        <View key={index}>
+                            <List.Item
+                                title={listItem.title}
+                                description={listItem.description}
+                                left={() => <List.Icon icon={listItem.icon} />}
+                                onPress={listItem.onClick}
+                            />
+                            <Divider/>
+                        </View>
+                    ))
+                }
             </ScrollView>
 
         </View>
